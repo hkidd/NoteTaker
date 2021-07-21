@@ -6,6 +6,7 @@ const fs = require("fs");
 const PORT = process.env.PORT || 3001;
 const uuid = require("../helpers/uuid");
 
+// Initialize express application
 const app = express();
 
 // Middleware for parsing application/json and url data
