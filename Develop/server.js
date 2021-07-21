@@ -63,7 +63,7 @@ app.post("/api/notes", (req, res) => {
   res.send(db);
 });
 
-// Delete route needs to specific note id to delete the correct one
+// Delete route needs the specific note id to delete the correct one
 app.delete("/api/notes/:id", (req, res) => {
   console.info(`${req.method} request received for the api/notes route`);
 
