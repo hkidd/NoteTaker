@@ -46,14 +46,23 @@ app.post('/api/notes', (req, res) => {
 
     // grabbing the request body and saving that as a "newNote"
     let newNote = req.body;
-    console.log(newNote);
+
     // need to ad a unique id to this note (using uuid)
     newNote.id = uuid();
-    console.log(newNote.id);
 
+    // after adding unique id, this note should be added to the db.json file
+    db.push(newNote);
+
+    // Tried append file, but that was making it unhappy.  So overwriting the db file each time a new note is added
+    fs.writeFile(`./db/db.json`, JSON.stringify(db), (err) =>
+      err ? console.error(err) : console.log(`New Note has been written to JSON db`)
+    );
+    // Need to pass along the new db as a response
+    res.send(db);
 });
 
-app.delete('/api/notes', (req, res) => {
+// Delete route needs to specific note id to delete the correct one
+app.delete('/api/notes/:id', (req, res) => {
     console.info(`${req.method} request received for the api/notes route`);
 
 });
@@ -76,7 +85,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => 
 console.log(`App listening at http://localhost:${PORT} 😎`)
 );
-
-
-
-
