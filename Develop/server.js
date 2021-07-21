@@ -16,12 +16,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // We have GET, POST, and DELETE methods in the index.js for the '/api/notes' route
+// GET route
 app.get("/api/notes", (req, res) => {
   console.info(`${req.method} request received for the api/notes route`);
   // this route should read the db.json file and return all saved notes as json
   res.json(db);
 });
 
+// POST route
 app.post("/api/notes", (req, res) => {
   console.info(`${req.method} request received for the api/notes route`);
   // this route should recieve a new note to save on the request body, add it to the db.json file, and then return the new note to the client with a unique id (using uuid, like our previous example)
@@ -45,7 +47,7 @@ app.post("/api/notes", (req, res) => {
   res.send(db);
 });
 
-// Delete route needs the specific note id to delete the correct one
+// DELETE route needs the specific note id to delete the correct one
 app.delete("/api/notes/:id", (req, res) => {
   console.info(`${req.method} request received for the api/notes route`);
 
