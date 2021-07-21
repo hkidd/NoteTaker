@@ -22,6 +22,7 @@ const db = require("./db/db.json");
 const path = require("path");
 const fs = require("fs");
 const PORT = 3001;
+const uuid = require('../helpers/uuid');
 
 const app = express();
 
@@ -34,36 +35,47 @@ app.use(express.static("public"));
 
 // We have GET, POST, and DELETE methods in the index.js for the '/api/notes' route
 app.get('/api/notes', (req, res) => {
-    console.info(`${req.method} request received for the notes route`);
+    console.info(`${req.method} request received for the api/notes route`);
     // this route should read the db.json file and return all saved notes as json
-
+    res.json(db);
 });
 
 app.post('/api/notes', (req, res) => {
-    console.info(`${req.method} request received for the notes route`);
+    console.info(`${req.method} request received for the api/notes route`);
     // this route should recieve a new note to save on the request body, add it to the db.json file, and then return the new note to the client with a unique id (using uuid, like our previous example)
+
+    // grabbing the request body and saving that as a "newNote"
+    let newNote = req.body;
+    console.log(newNote);
+    // need to ad a unique id to this note (using uuid)
+    newNote.id = uuid();
+    console.log(newNote.id);
 
 });
 
 app.delete('/api/notes', (req, res) => {
-    console.info(`${req.method} request received for the notes route`);
+    console.info(`${req.method} request received for the api/notes route`);
 
-});
-
-// Need the get * route to return the index.html file
-app.get('*', (req, res) => {
-    console.info(`${req.method} request received for the index route`);
-    // the response should be to send the index.html to the client
-    res.sendFile(path.join(__dirname, "/public/index.html"))
 });
 
 // Need the get /notes route to return the notes.html file
 app.get('/notes', (req, res) => {
-    console.info(`${req.method} request received for the notes route`);
+    console.info(`${req.method} request received for the /notes route`);
     // the response should be to send the notes.html to the client
     res.sendFile(path.join(__dirname, "/public/notes.html"))
 });
 
+// Need the get * route to return the index.html file.  THIS SHOULD BE LAST
+app.get('*', (req, res) => {
+    console.info(`${req.method} request received for the /index route`);
+    // the response should be to send the index.html to the client
+    res.sendFile(path.join(__dirname, "/public/index.html"))
+});
+
+// Need to have the app lsitening at the specified port
+app.listen(PORT, () => 
+console.log(`App listening at http://localhost:${PORT} 😎`)
+);
 
 
 
