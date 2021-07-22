@@ -54,6 +54,7 @@ app.delete("/api/notes/:id", (req, res) => {
 
   // using the id parameter, create a noteId variable
   let noteId = req.params.id;
+  console.log(noteId);
 
   // loop through the entire note database, and find the one note with a matching id
   for (let i = 0; i < db.length; i++) {
@@ -61,15 +62,19 @@ app.delete("/api/notes/:id", (req, res) => {
 
     if (currentNote.id === noteId) {
       // splice out one element starting at that noteId (only that note)
-      db.splice(currentNote, 1);
+      db.splice(i, 1);
       res.json(`Note has been deleted`);
+      console.log(db);
+
+      // after splicing out the note, write a new file with the updated db array
+      fs.writeFile("./db/db.json", JSON.stringify(db), (err) =>
+        err ? console.log(err) : console.log("Success!")
+      );
+
       return;
     }
   }
-  // after splicing out the note, write a new file with the updated db array
-  fs.writeFile("./db/db.json", JSON.stringify(db), (err) =>
-    err ? console.log(err) : console.log("Success!")
-  );
+
   // Pass along the new db as a response
   res.send(db);
 });
