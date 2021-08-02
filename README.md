@@ -1,4 +1,4 @@
-# NoteTaker_HW11
+# NoteTaker
 This application, Note Taker, uses an Express.js back end to save and retrieve note data from a JSON file. <br>
 Currently deployed on heroku at: https://note-taker-hk.herokuapp.com <br>
 
